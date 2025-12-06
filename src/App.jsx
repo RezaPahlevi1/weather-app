@@ -1,17 +1,14 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { SettingsProvider } from "./context/SettingsContext";
+import { WeatherProvider } from "./context/WeatherContext";
+import TestWeather from "./pages/TestWeather";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div className="text-5xl">
-        <p>WEather</p>
-      </div>
-    </>
+    <SettingsProvider>
+      <WeatherProvider>
+        <TestWeather />
+      </WeatherProvider>
+    </SettingsProvider>
   );
 }
 
