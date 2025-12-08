@@ -1,16 +1,81 @@
-# React + Vite
+# 🌤️ Weather App --- React + Tailwind CSS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean and responsive weather application built with **React** and
+**Tailwind CSS**, designed to provide quick and accurate weather
+information based on user-selected locations.\
+This project serves as practical training for working with APIs,
+managing state in React, and building modern UI components.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🔍 City Search
 
-## React Compiler
+Users can search for any city, and the app will fetch real-time weather
+data using the OpenWeather API.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🌡️ Weather Information Display
 
-## Expanding the ESLint configuration
+The app shows: - Temperature (°C) - Weather condition - Weather icon -
+Optional details (humidity, wind speed)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### ⚠️ Error Handling
+
+If a city is not found or the API returns an error, the app displays a
+friendly error message.
+
+## 🗂️ Project Structure
+
+    weather-app/
+    │
+    ├── src/
+    │   ├── components/
+    │   │   ├── DailyForecast.jsx
+    │   │   ├── FullscreenMap.jsx
+    │   │   ├── SearchCity.jsx
+    │   │   ├── SettingsButton.jsx
+    │   │   ├── SettingsPanel.jsx
+    │   │   └── WeatherCard.jsx
+    │   ├── context/
+    │   │   └── WeatherContext.jsx
+    │   │   └── SettingsContext.jsx
+    │   ├── api/
+    │   │   └── weather.js
+    │   ├── pages/
+    │   │   └── Home.jsx
+    │   ├── utils/
+    │   │   └── debounce.js
+    │   │   └── storage.js
+    │   ├── App.jsx
+    │   ├── index.css
+    │   └── main.jsx
+    │
+    ├── public/
+    │
+    ├── package.json
+    └── README.md
+
+## 🌐 API Used
+
+This project uses the **OpenWeather API**.
+
+## 🔄 App Flow
+
+1.  User types a city name in the search bar.\
+2.  The app sends a request to the OpenWeather API.\
+3.  The API returns JSON weather data.\
+4.  Information is displayed on the WeatherCard.\
+5.  If the API returns an error, a fallback message is shown.
+
+## 🎯 Project Goals
+
+This project is created to practice: - Building reusable components in
+React\
+
+- Handling REST API requests\
+- Managing global state with React Context\
+- Creating responsive layouts using Tailwind CSS\
+- Designing an application from scratch with clean UX
+
+## 📄 License
+
+This project is open-source and free to use.

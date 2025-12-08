@@ -1,18 +1,16 @@
 import DailyForecast from "../components/DailyForecast";
-import FloatingLeftInfo from "../components/FloatingLeftInfo";
-import FloatingSearch from "../components/FloatingSearchCity";
-import FloatingWeatherCard from "../components/FloatingWeatherCard";
 import FullscreenMap from "../components/FullscreenMap";
+import SearchCity from "../components/SearchCity";
 import SettingsButton from "../components/SettingsButton";
+import WeatherCard from "../components/WeatherCard";
 
 export default function App() {
   return (
     <div className="relative">
       <SettingsButton />
       <FullscreenMap />
-      <FloatingSearch />
-      <FloatingWeatherCard />
-      <FloatingLeftInfo />
+      <SearchCity />
+      <WeatherCard />
       <DailyForecast />
     </div>
   );
