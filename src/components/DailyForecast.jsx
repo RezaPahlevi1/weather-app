@@ -1,32 +1,50 @@
+// components/DailyForecast.jsx
 import { useWeather } from "../context/WeatherContext";
+import { useSettings } from "../context/SettingsContext";
 
 export default function DailyForecast() {
   const { forecast } = useWeather();
+  const { lang } = useSettings();
 
   if (!forecast || forecast.length === 0) return null;
 
+  const getShortDay = (date) => {
+    return new Date(date).toLocaleDateString(
+      lang === "id" ? "id-ID" : "en-US",
+      { weekday: "long" }
+    );
+  };
+
   return (
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] overflow-x-auto z-[999]">
-      <div className="flex gap-4">
+    <div
+      className="
+        fixed bottom-0 left-0 right-0 z-999
+        backdrop-blur-xl bg-slate-800/40 border-t border-white/10
+        h-[90px] flex items-center
+      "
+    >
+      <div className="flex overflow-x-auto gap-3 px-4 pb-1 w-full justify-center">
         {forecast.map((day) => (
           <div
             key={day.date}
-            className="min-w-[120px] bg-white/80 backdrop-blur-md rounded-xl shadow p-3 text-center"
+            className="
+              flex flex-col items-center justify-center
+              min-w-[78px] p-2 rounded-md bg-white/5
+            "
           >
-            <p className="font-semibold">
-              {new Date(day.date).toLocaleDateString("id-ID", {
-                weekday: "short",
-              })}
-            </p>
+            <span className="text-white text-[12px] font-medium leading-tight">
+              {getShortDay(day.date)}
+            </span>
 
             <img
-              src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
-              className="mx-auto"
+              src={`https://openweathermap.org/img/wn/${day.icon}.png`}
+              className="w-8 h-8 my-1"
+              alt={day.description}
             />
 
-            <p className="text-gray-600 text-sm">
+            <span className="text-white/80 text-[12px] leading-tight">
               {Math.round(day.temp_min)}° / {Math.round(day.temp_max)}°
-            </p>
+            </span>
           </div>
         ))}
       </div>

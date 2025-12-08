@@ -1,4 +1,3 @@
-// WeatherContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSettings } from "./SettingsContext";
 import { getWeather, getForecast } from "../api/weather";
@@ -10,7 +9,7 @@ export function WeatherProvider({ children }) {
 
   const [city, setCity] = useState(null);
   const [weather, setWeather] = useState(null);
-  const [forecast, setForecast] = useState([]); // <-- tambahan
+  const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -42,13 +41,29 @@ export function WeatherProvider({ children }) {
 
       const daily = Object.keys(group).map((date) => {
         const list = group[date];
+
         const temps = list.map((x) => x.main.temp);
+        const humidities = list.map((x) => x.main.humidity);
+        const pressures = list.map((x) => x.main.pressure);
+        const feels = list.map((x) => x.main.feels_like);
+        const winds = list.map((x) => x.wind.speed);
 
         return {
           date,
           temp_min: Math.min(...temps),
           temp_max: Math.max(...temps),
+          humidity: Math.round(
+            humidities.reduce((a, b) => a + b, 0) / humidities.length
+          ),
+          pressure: Math.round(
+            pressures.reduce((a, b) => a + b, 0) / pressures.length
+          ),
+          feels_like: Math.round(
+            feels.reduce((a, b) => a + b, 0) / feels.length
+          ),
+          wind: Math.round(winds.reduce((a, b) => a + b, 0) / winds.length),
           icon: list[0].weather[0].icon,
+          description: list[0].weather[0].description,
         };
       });
 
@@ -58,19 +73,18 @@ export function WeatherProvider({ children }) {
     }
   }
 
-  // Load data when city changes
   useEffect(() => {
     if (!city) return;
 
     loadWeather(city.lat, city.lon);
-    loadForecast(city.lat, city.lon); // <--- tambahan aman
+    loadForecast(city.lat, city.lon);
   }, [city, unit, lang]);
 
   const value = {
     city,
     setCity,
     weather,
-    forecast, // <--- expose forecast ke komponen
+    forecast,
     loading,
     error,
   };

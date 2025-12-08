@@ -3,13 +3,13 @@ import { useSettings } from "../context/SettingsContext";
 
 export default function WeatherCard() {
   const { weather, loading, error } = useWeather();
-  const { unit, language } = useSettings();
+  const { unit, lang } = useSettings();
 
   // loading state
   if (loading) {
     return (
       <div className="w-full p-6 bg-slate-800/40 rounded-xl text-center text-white animate-pulse">
-        {language === "id" ? "Memuat cuaca..." : "Loading weather..."}
+        {lang === "id" ? "Memuat cuaca..." : "Loading weather..."}
       </div>
     );
   }
@@ -18,7 +18,7 @@ export default function WeatherCard() {
   if (error) {
     return (
       <div className="w-full p-6 bg-red-500/20 rounded-xl text-red-300 text-center">
-        {language === "id" ? "Gagal memuat data." : "Failed to fetch weather."}
+        {lang === "id" ? "Gagal memuat data." : "Failed to fetch weather."}
       </div>
     );
   }
@@ -27,7 +27,7 @@ export default function WeatherCard() {
   if (!weather) {
     return (
       <div className="w-full p-6 bg-slate-800/40 rounded-xl text-center text-white">
-        {language === "id"
+        {lang === "id"
           ? "Cari kota untuk melihat cuaca."
           : "Search for a city to display weather."}
       </div>
@@ -66,7 +66,7 @@ export default function WeatherCard() {
           {temp}°{unit === "metric" ? "C" : "F"}
         </h2>
         <div className="text-slate-400">
-          {language === "id" ? "Terasa seperti" : "Feels like"}: {feels}°
+          {lang === "id" ? "Terasa seperti" : "Feels like"}: {feels}°
         </div>
       </div>
 
@@ -74,14 +74,14 @@ export default function WeatherCard() {
       <div className="mt-6 grid grid-cols-3 gap-4 text-center">
         <div className="p-3 bg-slate-700/40 rounded-xl">
           <p className="text-sm text-slate-300">
-            {language === "id" ? "Kelembapan" : "Humidity"}
+            {lang === "id" ? "Kelembapan" : "Humidity"}
           </p>
           <p className="text-xl font-bold">{humidity}%</p>
         </div>
 
         <div className="p-3 bg-slate-700/40 rounded-xl">
           <p className="text-sm text-slate-300">
-            {language === "id" ? "Angin" : "Wind"}
+            {lang === "id" ? "Angin" : "Wind"}
           </p>
           <p className="text-xl font-bold">
             {wind} {unit === "metric" ? "m/s" : "mph"}
@@ -90,14 +90,14 @@ export default function WeatherCard() {
 
         <div className="p-3 bg-slate-700/40 rounded-xl">
           <p className="text-sm text-slate-300">
-            {language === "id" ? "Tekanan" : "Pressure"}
+            {lang === "id" ? "Tekanan" : "Pressure"}
           </p>
           <p className="text-xl font-bold">{weather.main.pressure} hPa</p>
         </div>
       </div>
 
       <p className="text-xs text-slate-400 mt-4 text-right">
-        {language === "id" ? "Terakhir diperbarui" : "Last updated"}:{" "}
+        {lang === "id" ? "Terakhir diperbarui" : "Last updated"}:{" "}
         {new Date().toLocaleTimeString()}
       </p>
     </div>

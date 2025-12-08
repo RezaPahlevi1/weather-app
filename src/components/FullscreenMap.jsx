@@ -7,8 +7,9 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import { useWeather } from "../context/WeatherContext";
+
+import "leaflet/dist/leaflet.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -20,19 +21,20 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-// Component untuk memindahkan map ke koordinat baru
-function RecenterMap({ lat, lon }) {
+// Recenter map when city changes
+function RecenterMap({ city }) {
   const map = useMap();
 
   useEffect(() => {
-    if (!lat || !lon) return;
-    map.setView([lat, lon], 12, { animate: true });
-  }, [lat, lon]);
+    if (!city) return;
+    map.setView([city.lat, city.lon], 12, { animate: true });
+  }, [city]);
 
   return null;
 }
 
-function MapClickHandler({ setPin }) {
+// Handle click events
+function MapClickHandler() {
   const { setCity } = useWeather();
 
   useMapEvents({
@@ -40,8 +42,7 @@ function MapClickHandler({ setPin }) {
       const lat = e.latlng.lat;
       const lon = e.latlng.lng;
 
-      setCity({ lat, lon });
-      setPin({ lat, lon });
+      setCity({ lat, lon }); // <-- trigger weather + forecast update
     },
   });
 
@@ -50,24 +51,20 @@ function MapClickHandler({ setPin }) {
 
 export default function FullscreenMap() {
   const { city, setCity } = useWeather();
-
-  const [pin, setPin] = useState(null);
   const [initialCenter, setInitialCenter] = useState(null);
 
-  // GET USER LOCATION FIRST
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
 
-        setInitialCenter([lat, lon]); // hanya 1x set
-        setPin({ lat, lon });
+        setInitialCenter([lat, lon]);
         setCity({ lat, lon });
       },
       () => {
-        // fallback: Jakarta
         setInitialCenter([-6.2, 106.8]);
+        setCity({ lat: -6.2, lon: 106.8 });
       }
     );
   }, []);
@@ -85,12 +82,14 @@ export default function FullscreenMap() {
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-      {/* Gerakkan map ketika city berubah */}
-      {city && <RecenterMap lat={city.lat} lon={city.lon} />}
+      {/* Move map view when city changes */}
+      {city && <RecenterMap city={city} />}
 
-      <MapClickHandler setPin={setPin} />
+      {/* Register click handler */}
+      <MapClickHandler />
 
-      {pin && <Marker position={[pin.lat, pin.lon]} />}
+      {/* Marker always reflects city */}
+      {city && <Marker position={[city.lat, city.lon]} />}
     </MapContainer>
   );
 }
